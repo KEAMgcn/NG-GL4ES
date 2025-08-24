@@ -854,10 +854,10 @@ void APIENTRY_GL4ES gl4es_glGetShaderInfoLog(GLuint shader, GLsizei maxLength, G
     DBG(SHUT_LOGD("glGetShaderInfoLog(%d, %d, %p, %p)\n", shader, maxLength, length, infoLog))
     // find shader
     CHECK_SHADER(void, shader)
-    if (maxLength <= 0) {
-        errorShim(GL_INVALID_OPERATION);
-        return;
-    }
+    //if (maxLength <= 0) {
+    //    errorShim(GL_INVALID_OPERATION);
+    //    return;
+    //}
     LOAD_GLES2(glGetShaderInfoLog);
     if (gles_glGetShaderInfoLog) {
         gles_glGetShaderInfoLog(glshader->id, maxLength, length, infoLog);

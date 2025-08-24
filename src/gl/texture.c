@@ -281,12 +281,13 @@ void internal_convert(GLenum* internal_format, GLenum* type, GLenum* format) {
             *format = GL_RGBA;
         if (type)
             *type = GL_BYTE;
+        break;
     case GL_R32F:
-      if (format)
-        *format = GL_RED;
-      if (type)
-        *type = GL_FLOAT;
-      break;
+        if (format)
+          *format = GL_RED;
+        if (type)
+          *type = GL_FLOAT;
+        break;
     default:
         // fallback handling for GL_RGB8, GL_RGBA16_SNORM etc.
         if (*internal_format == GL_RGB8) {
