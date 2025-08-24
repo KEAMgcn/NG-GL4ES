@@ -25,7 +25,7 @@ KHASH_MAP_IMPL_INT(shaderlist, shader_t*);
 GLuint APIENTRY_GL4ES gl4es_glCreateShader(GLenum shaderType) {
     DBG(SHUT_LOGD("glCreateShader(%s)\n", PrintEnum(shaderType)))
     // sanity check
-    if (shaderType != GL_VERTEX_SHADER && shaderType != GL_FRAGMENT_SHADER) {
+    if (shaderType != GL_VERTEX_SHADER && shaderType != GL_FRAGMENT_SHADER  && shaderType != GL_GEOMETRY_SHADER) {
         DBG(SHUT_LOGD("Invalid shader type\n"))
         errorShim(GL_INVALID_ENUM);
         return 0;
