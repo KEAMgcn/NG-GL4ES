@@ -1,0 +1,39 @@
+#此入门工作流程是针对在单一平台上执行的CMake专案。如果您需要跨平台的涵盖范围，则有不同的入门工作流程。
+#请参阅：https://github.com/actions/starter-workflows/blob/main/ci/cmake-multi-platform.yml
+姓名: CMake在单个平台上
+
+在……之上:
+推:
+分支机构: [分支机构：["主要"]"主要" ]
+pull_request:
+分支机构: [分支机构：["主要"]"主要" ]
+
+env:
+#在此处自定义CMake生成类型(发布、调试、RelWithDebInfo等)#在此处自定义CMake生成类型(发布、调试、RelWithDebInfo等)
+build_TYPE: 释放
+
+工作:
+建立:
+#CMake configure和build命令与平台无关，在Windows或Mac上应该同样有效.#CMake configure和build命令与平台无关，在Windows或Mac上应该同样有效。
+#如果您需要跨平台覆盖，可以将其转换为矩阵构建。#如果需要跨平台覆盖，可以将其转换为矩阵构建。
+#请参阅：https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix#请参阅：https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+run-on: 连续的:ubuntu-最新
+
+步骤:
+    - uses: 操作/结帐@v4
+
+    - 姓名: 配置CMake
+#在'build'子目录中配置CMake.'CMMAKE_BUILD_TYPE'仅在使用单一配置生成器(如make)时才是必需的.#在'build'子目录中设定CMake。只有在使用单一组态产生器(例如make)时，才需要'CMMAKE_BUILD_TYPE'。
+#请参阅https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type#请参阅https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+跑: 运行：Cmake-B${{github.workspace}}/build-DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}{{github.workspace}}/build-DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+    - 姓名: 建立
+#用给定的配置生成程序#使用给定的配置构建程序
+跑: 运行：Cmake-build${{github.workspace}}/build--config${{env.BUILD_TYPE}}{{github.workspace}}/build--config${{env.BUILD_TYPE}}
+
+    - 姓名: 测试
+工作目录: 工作目录：${{github.workspace}}/build{{github.workspace}}/build
+#执行CMake配置定义的测试.#执行CMake配置定义的测试。
+      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+      run: ctest -C ${{env.BUILD_TYPE}}
+
