@@ -1,0 +1,44 @@
+#此工作流使用未经GitHub认证的操作。
+#它们由第三方提供，并由
+#单独的服务条款、隐私政策和支持
+#documentation。
+
+姓名: MSBuild
+
+在……之上:
+推:
+分支机构: [ "主要" ]
+pull_request:
+分支机构: [ "主要" ]
+
+env:
+  #解决方案文件相对于项目根目录的路径。
+solution_FILE_PATH: .
+
+  #要生成的配置类型。
+  #如果需要覆盖多个配置类型，可以将此转换为构建矩阵。
+  #https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+build_CONFIGURATION: 释放
+
+权限:
+内容: 读
+
+工作:
+建立:
+run-on: windows-最新
+
+步骤:
+    - uses: 操作/结帐@v4
+
+    - 姓名: 将MSBuild添加到PATH
+uses: Microsoft/setup-msbuild@v1.0.2
+
+    - 姓名: 还原NuGet包
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: nuget restore ${{env.SOLUTION_FILE_PATH}}
+
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      # Add additional options to the MSBuild command line here (like platform or verbosity level).
+      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
